@@ -134,7 +134,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         if selectedTitle != "" {
             
-            var requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+            let requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
             
             CLGeocoder().reverseGeocodeLocation(requestLocation) { placemarks, error in
                 
@@ -218,6 +218,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
     }
     
+    @objc func hideKeyboard(){
+        view.endEditing(true)
+    }
     
 }
 
