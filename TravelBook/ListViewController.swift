@@ -18,18 +18,22 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.delegate = self
-        tableView.dataSource = self
         
         navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addButtonClicked))
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         getData()
         
       
     }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newPlace"), object: nil)
         
-    func getData(){
+    }
+        
+    @objc func getData(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -41,6 +45,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             if results.count > 0{
                 
                 self.titleArray.removeAll(keepingCapacity: false)
+                self.idArray.removeAll(keepingCapacity: false)
                 
                 for result in results as! [NSManagedObject]{
                     
@@ -56,6 +61,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }catch{
+            print("error")
             
         }
     }
